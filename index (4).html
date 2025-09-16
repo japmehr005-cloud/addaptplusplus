@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketing Platform - Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <svg class="theme-icon moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+        </button>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                <span class="logo-text">AI Marketing</span>
+            </div>
+            
+            <div class="nav-menu">
+                <button class="nav-item active" data-section="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <rect x="9" y="9" width="6" height="6"/>
+                        <path d="M9 1v6M15 1v6M9 17v6M15 17v6M1 9h6M1 15h6M17 9h6M17 15h6"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                
+                <button class="nav-item" data-section="campaigns">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
+                    </svg>
+                    <span>Campaigns</span>
+                </button>
+                
+                <button class="nav-item" data-section="assets">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="M21 15l-3.086-3.086a2 2 0 00-2.828 0L6 21"/>
+                    </svg>
+                    <span>Assets</span>
+                </button>
+                
+                <button class="nav-item" data-section="audience">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                    </svg>
+                    <span>Audience</span>
+                </button>
+                
+                <button class="nav-item" data-section="creative">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Creative</span>
+                </button>
+                
+                <button class="nav-item" data-section="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                    </svg>
+                    <span>Analytics</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section class="content-section active" id="dashboard">
+                <div class="section-header">
+                    <h1>Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <select class="form-control date-range">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>Custom range</option>
+                        </select>
+                        <button class="btn btn--primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                            Create Campaign
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- KPI Cards -->
+                    <div class="kpi-cards">
+                        <div class="kpi-card">
+                            <div class="kpi-icon success">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Total Revenue</h3>
+                                <div class="kpi-value" id="totalRevenue">$0</div>
+                                <div class="kpi-change positive">
+                                    <span>↗</span>
+                                    <span id="revenueChange">+0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-icon primary">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z"/>
+                                    <path d="M19 13h-6"/>
+                                </svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Active Campaigns</h3>
+                                <div class="kpi-value" id="activeCampaigns">0</div>
+                                <div class="kpi-change positive">
+                                    <span>↗</span>
+                                    <span id="campaignsChange">+0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-icon warning">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                                </svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Avg CTR</h3>
+                                <div class="kpi-value" id="avgCTR">0%</div>
+                                <div class="kpi-change positive">
+                                    <span>↗</span>
+                                    <span id="ctrChange">+0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-icon error">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>ROAS</h3>
+                                <div class="kpi-value" id="roas">0x</div>
+                                <div class="kpi-change positive">
+                                    <span>↗</span>
+                                    <span id="roasChange">+0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="chart-container" style="position: relative; height: 400px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="activity-feed">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list" id="activityList">
+                            <!-- Activities will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Campaigns Section -->
+            <section class="content-section" id="campaigns">
+                <div class="section-header">
+                    <h1>Campaign Management</h1>
+                    <button class="btn btn--primary" id="createCampaignBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Create New Campaign
+                    </button>
+                </div>
+
+                <!-- Campaign Creation Wizard -->
+                <div class="campaign-wizard hidden" id="campaignWizard">
+                    <div class="wizard-progress">
+                        <div class="progress-step active" data-step="1">
+                            <span class="step-number">1</span>
+                            <span class="step-label">Campaign Details</span>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <span class="step-number">2</span>
+                            <span class="step-label">AI Analysis</span>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <span class="step-number">3</span>
+                            <span class="step-label">Review & Deploy</span>
+                        </div>
+                    </div>
+
+                    <div class="wizard-content">
+                        <!-- Step 1: Campaign Details -->
+                        <div class="wizard-step active" id="step1">
+                            <h2>Campaign Details</h2>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Campaign Name</label>
+                                    <input type="text" class="form-control" id="campaignName" placeholder="Enter campaign name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Platform</label>
+                                    <select class="form-control" id="campaignPlatform">
+                                        <option>Meta Ads</option>
+                                        <option>Google Ads</option>
+                                        <option>TikTok Ads</option>
+                                        <option>LinkedIn Ads</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Objective</label>
+                                    <select class="form-control" id="campaignObjective">
+                                        <option>Brand Awareness</option>
+                                        <option>Lead Generation</option>
+                                        <option>Conversions</option>
+                                        <option>Traffic</option>
+                                        <option>Engagement</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Budget (Daily)</label>
+                                    <input type="number" class="form-control" id="campaignBudget" placeholder="100" min="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Campaign Description</label>
+                                <textarea class="form-control nlp-input" id="campaignDescription" rows="4" placeholder="Describe your campaign goals, target audience, and key messages..."></textarea>
+                                <div class="nlp-analysis" id="nlpAnalysis">
+                                    <!-- NLP analysis results will appear here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: AI Analysis -->
+                        <div class="wizard-step" id="step2">
+                            <h2>AI-Powered Insights</h2>
+                            <div class="ai-insights" id="aiInsights">
+                                <div class="insight-card">
+                                    <h3>Sentiment Analysis</h3>
+                                    <div class="sentiment-result" id="sentimentResult">
+                                        <div class="sentiment-score">
+                                            <span class="score-label">Positive</span>
+                                            <span class="score-value">85%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="insight-card">
+                                    <h3>Target Audience Suggestions</h3>
+                                    <div class="audience-suggestions" id="audienceSuggestions">
+                                        <!-- AI suggestions will be populated here -->
+                                    </div>
+                                </div>
+
+                                <div class="insight-card">
+                                    <h3>Optimization Recommendations</h3>
+                                    <div class="optimization-tips" id="optimizationTips">
+                                        <!-- Optimization tips will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Review & Deploy -->
+                        <div class="wizard-step" id="step3">
+                            <h2>Review & Deploy</h2>
+                            <div class="campaign-summary" id="campaignSummary">
+                                <!-- Campaign summary will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="btn btn--outline" id="wizardPrev">Previous</button>
+                        <button class="btn btn--primary" id="wizardNext">Next</button>
+                        <button class="btn btn--primary hidden" id="deployCampaign">Deploy Campaign</button>
+                    </div>
+                </div>
+
+                <!-- Campaigns List -->
+                <div class="campaigns-list" id="campaignsList">
+                    <div class="campaigns-grid" id="campaignsGrid">
+                        <!-- Campaigns will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assets Section -->
+            <section class="content-section" id="assets">
+                <div class="section-header">
+                    <h1>Asset Library</h1>
+                    <div class="header-actions">
+                        <button class="btn btn--outline" id="bulkUploadBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                            Bulk Upload
+                        </button>
+                        <button class="btn btn--primary" id="uploadAssetBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                            Upload Asset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upload Interface -->
+                <div class="upload-interface hidden" id="uploadInterface">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-content">
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                            <h3>Drop files here or click to browse</h3>
+                            <p>Supports images (JPG, PNG, GIF), videos (MP4), and documents (PDF, DOCX)</p>
+                            <button class="btn btn--primary">Browse Files</button>
+                            <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.webm,.mov,.pdf,.docx,.txt" class="hidden">
+                        </div>
+                    </div>
+
+                    <div class="upload-progress hidden" id="uploadProgress">
+                        <h3>Uploading Files</h3>
+                        <div class="progress-list" id="progressList">
+                            <!-- Upload progress items will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assets Grid -->
+                <div class="assets-grid" id="assetsGrid">
+                    <!-- Assets will be populated here -->
+                </div>
+            </section>
+
+            <!-- Audience Section -->
+            <section class="content-section" id="audience">
+                <div class="section-header">
+                    <h1>Audience Builder</h1>
+                    <button class="btn btn--primary" id="createAudienceBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Create Audience
+                    </button>
+                </div>
+
+                <div class="audience-builder">
+                    <div class="audience-filters">
+                        <h3>Targeting Criteria</h3>
+                        <div class="filter-groups" id="filterGroups">
+                            <!-- Filter groups will be populated here -->
+                        </div>
+                        <button class="btn btn--outline add-filter-btn" id="addFilterBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"/>
+                            </svg>
+                            Add Filter
+                        </button>
+                    </div>
+
+                    <div class="audience-preview">
+                        <h3>Audience Preview</h3>
+                        <div class="audience-stats" id="audienceStats">
+                            <div class="stat-item">
+                                <span class="stat-label">Estimated Size</span>
+                                <span class="stat-value" id="estimatedSize">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Reach Potential</span>
+                                <span class="stat-value" id="reachPotential">Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Creative Section -->
+            <section class="content-section" id="creative">
+                <div class="section-header">
+                    <h1>Creative Studio</h1>
+                    <button class="btn btn--primary" id="generateCreativeBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        Generate Creative
+                    </button>
+                </div>
+
+                <div class="creative-workspace">
+                    <div class="creative-generator">
+                        <h3>AI Creative Generator</h3>
+                        <div class="form-group">
+                            <label class="form-label">Creative Prompt</label>
+                            <textarea class="form-control" id="creativePrompt" rows="3" placeholder="Describe the creative you want to generate..."></textarea>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Style</label>
+                                <select class="form-control" id="creativeStyle">
+                                    <option>Modern</option>
+                                    <option>Minimalist</option>
+                                    <option>Bold</option>
+                                    <option>Elegant</option>
+                                    <option>Playful</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Format</label>
+                                <select class="form-control" id="creativeFormat">
+                                    <option>Square (1:1)</option>
+                                    <option>Landscape (16:9)</option>
+                                    <option>Portrait (9:16)</option>
+                                    <option>Story (9:16)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--full-width" id="generateBtn">Generate Creative</button>
+                    </div>
+
+                    <div class="creative-gallery" id="creativeGallery">
+                        <!-- Generated creatives will be shown here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="content-section" id="analytics">
+                <div class="section-header">
+                    <h1>Advanced Analytics</h1>
+                    <div class="header-actions">
+                        <button class="btn btn--outline" id="exportReportBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Export Report
+                        </button>
+                        <select class="form-control">
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>Custom range</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-container" style="position: relative; height: 400px;">
+                        <h3>Performance Trends</h3>
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <h3>Attribution Analysis</h3>
+                        <canvas id="attributionChart"></canvas>
+                    </div>
+
+                    <div class="cohort-analysis">
+                        <h3>Cohort Analysis</h3>
+                        <div class="cohort-heatmap" id="cohortHeatmap">
+                            <!-- Cohort heatmap will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Processing with AI...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toast notifications will be added here -->
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
